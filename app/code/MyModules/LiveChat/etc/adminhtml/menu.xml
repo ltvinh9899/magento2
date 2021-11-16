@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="//www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="MyModules_LiveChat::menu"
+             title="Live Chat"
+             module="MyModules_LiveChat"
+             sortOrder="25"
+             resource="Magento_Backend::system" />
+        <add id="MyModules_LiveChat::memberMenu"
+             title="Live Chat Setting"
+             module="MyModules_LiveChat"
+             sortOrder="10"
+             parent="MyModules_LiveChat::menu"
+             resource="MyModules_LiveChat::config_livechat" />
+        <add id="MyModules_LiveChat::configuration"
+             title="Configuration"
+             module="MyModules_LiveChat"
+             sortOrder="15"
+             action="adminhtml/system_config/edit/section/MyModules_livechat/"
+             parent="MyModules_LiveChat::memberMenu"
+             resource="MyModules_LiveChat::config_livechat" />
+    </menu>
+</config>

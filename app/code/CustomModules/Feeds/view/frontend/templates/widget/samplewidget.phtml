@@ -1,0 +1,62 @@
+<?php if ($block->getData('widgettitle')) : ?>
+    <div class="block-title" >
+        <h2 style="font-weight:bold;"><?php echo $block->getData('widgettitle'); ?></h2>
+    </div>
+<?php endif; ?>
+<div class="hpb-main hpb-slider">
+    <?php
+    $url = "https://vnexpress.net/rss/tin-moi-nhat.rss";
+
+
+    if (isset($_POST['submit'])) {
+        if ($_POST['feedurl'] != '') {
+            $url = $_POST['feedurl'];
+        }
+    }
+
+    $invalidurl = false;
+    if (@simplexml_load_file($url)) {
+        $feeds = simplexml_load_file($url);
+    }
+
+    $i = 0;
+    if (!empty($feeds)) {
+
+        $site = $feeds->channel->title;
+        $sitelink = $feeds->channel->link;
+
+    ?>
+        <?php
+        foreach ($feeds->channel->item as $item) {
+
+            $title = $item->title;
+            $link = $item->link;
+            $description = $item->description;
+            $postDate = $item->pubDate;
+            $pubDate = date('d-m-Y H:i:s', strtotime($postDate));
+
+
+            if ($i >= 20) break;
+        ?>
+            <div class="hpb-inner">
+                <div class="post" style="margin: auto">
+                    <div class="post-head">
+                        <h2><a class="feed_title" href="<?php echo $link; ?>" style="font-weight:bold; font-size:22px; color: green;text-decoration:none;"><?php echo $title; ?></a></h2>
+                        <span style="font-size: 14px; font-style:italic; color:gray"><?php echo $pubDate; ?></span>
+                    </div>
+                    <div class="post-content">
+                        <?php echo implode(' ', array_slice(explode(' ', $description), 0, 40)) . "..."; ?> <a href="<?php echo $link; ?>">Đọc tiếp</a>
+                    </div>
+                </div>
+            </div>
+            <hr style="border-style: dotted;" />
+    <?php
+            $i++;
+        }
+    } else {
+        if (!$invalidurl) {
+            echo "<h2>No item found</h2>";
+        }
+    }
+    ?>
+</div>

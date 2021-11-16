@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../app/code/Magento/Webapi/etc/webapi.xsd">
+    <route url="/V1/productbyid/:productId" method="GET">
+        <service class="CustomModules\ProductApi\Api\ProductGetterInterface" method="getProductById"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/productbysku/:sku" method="GET">
+        <service class="CustomModules\ProductApi\Api\ProductGetterInterface" method="getProductBySku"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+</routes>

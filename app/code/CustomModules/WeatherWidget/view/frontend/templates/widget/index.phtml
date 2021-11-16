@@ -1,0 +1,54 @@
+<div>
+    <?php
+    $country = "Vietnam";
+    $region = "Hanoi";
+    $key = "&appid=fbd57cf751f7ad6f3304fcb8559374e1";
+
+    $current_obj = $block->getCurrentData($region, $country, $key);
+    $city_id = $current_obj->id;
+    $forecastData = $block->getForecastData($city_id, $key);
+    ?>
+    <div style="margin-bottom: 10px">
+        <div>
+            <div style="font-weight: bold; font-size: 35px"><?php echo $region . ", " . $country ?></div>
+            <div style="font-style:italic; color:gray">Cập nhật lần cuối: <?php echo date("d/m/Y H:i:s", $current_obj->dt); ?></div>
+        </div>
+        <div>
+            <div style="height:75px; width:75px;background: url('http://openweathermap.org/img/w/<?php echo $current_obj->weather[0]->icon ?>.png');background-size: cover;"></div>
+            <div style="font-size: 30px;color: #205c84;"><?php echo $current_obj->main->temp . " &#8451;" ?> - <?php echo  $current_obj->weather[0]->main ?></div>
+            <div><span style="font-weight: bold;">Tỉ lệ mưa: </span> <?php echo $current_obj->clouds->all . "%" ?></div>
+            <div><span style="font-weight: bold;">Áp suất khí quyển: </span><?php echo $current_obj->main->pressure . "hPa" ?></div>
+            <div><span style="font-weight: bold;">Độ ẩm:</span><?php echo $current_obj->main->humidity . "%" ?></div>
+            <div><span style="font-weight: bold;">Nhiệt độ cao nhất: </span><?php echo $current_obj->main->temp_min . " &#8451;" ?></div>
+            <div><span style="font-weight: bold;">Nhiệt độ thấp nhất: </span><?php echo $current_obj->main->temp_max . " &#8451;" ?></div>
+            <div><span style="font-weight: bold;">Tốc độ gió: </span><?php echo $current_obj->wind->speed . " meter/sec" ?></div>
+            <div><span style="font-weight: bold;">Hướng gió: </span><?php echo $current_obj->wind->deg . "&deg;" ?></div>
+        </div>
+    </div>
+    <div>
+        <?php
+        $forcast_list = $forecastData->list;
+        foreach ($forcast_list as $temp) {
+            if (date("d/m", $current_obj->dt) == date("d/m", $temp->dt)) { ?>
+                <div style="width: 95%;
+                            display: flex;
+                            margin-bottom: 10px;
+                            padding: 20px;
+                            justify-content: space-between;
+                            background: #f3f3f3f3;">
+                    <div><b><?php echo date("d/m H:i", $temp->dt) ?></b></div>
+                    <div style="width:50px;background: url('http://openweathermap.org/img/w/<?php echo $temp->weather[0]->icon ?>.png') no-repeat;"></div>
+                    <div style="width: 100px;
+                                text-align: center;
+                                font-size: 25px;">
+                        <?php echo $temp->main->temp . " &#8451;" ?></div>
+                    <div style="width: 50px;text-align: center;font-size: 20px;"><?php echo $temp->main->humidity . "%" ?></div>
+                    <div><?php echo $temp->weather[0]->main ?></div>
+                </div>
+        <?php }
+        }
+        ?>
+    </div>
+</div>
+</div>
+</div>
